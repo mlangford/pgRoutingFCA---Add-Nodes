@@ -76,10 +76,10 @@ namespace pgRoutingFCA
             {
                 //just carry on
             }
-            //Form2 frm2 = new Form2(conString);
-            //frm2.Owner = this;
+            Form2 frm2 = new Form2(conString);
+            frm2.Owner = this;
             this.Hide();
-            //frm2.Show();
+            frm2.Show();
         }
 
         //display a feedback label
