@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Npgsql;
 
 namespace pgRoutingFCA
@@ -52,21 +53,22 @@ namespace pgRoutingFCA
         {
             try
             {
+                //clear list if table names
                 cboSupTbl.Items.Clear();
                 cboSupTbl.SelectedIndex = -1;
                 cboSupTbl.Text = "";
                 cboSupTbl.Enabled = true;
-
+                //clear list of demand volume fields
                 cboSupVol.Items.Clear();
                 cboSupVol.SelectedIndex = -1;
                 cboSupVol.Text = "";
                 cboSupVol.Enabled = false;
-
+                //clear list if ID fields
                 cboSupID.Items.Clear();
                 cboSupID.SelectedIndex = -1;
                 cboSupID.Text = "";
                 cboSupID.Enabled = false;
-
+                //repopulate all of above
                 using (NpgsqlConnection dbConnection = new NpgsqlConnection())
                 {
                     dbConnection.ConnectionString = conString;
@@ -157,6 +159,9 @@ namespace pgRoutingFCA
             {
                 try
                 {
+                    cboDemID.Items.Clear();
+                    cboDemVol.Items.Clear();
+                    cboFCAOut.Items.Clear();
                     using (NpgsqlConnection dbConnection = new NpgsqlConnection())
                     {
                         dbConnection.ConnectionString = conString;
@@ -272,68 +277,169 @@ namespace pgRoutingFCA
             DateTime startTime = DateTime.Now;
             Application.DoEvents();
 
+            Dictionary<int, double> demCounts =  new Dictionary<int,double>();
+
+            string supSchm = cboSupSchm.SelectedItem.ToString();
+            string supTbl = cboSupTbl.SelectedItem.ToString();
+            string supName = supSchm + "." + supTbl;
+            string supCode = cboSupID.SelectedItem.ToString();
+            string supVolm = cboSupVol.SelectedItem.ToString();
+
+            string demSchm = cboDemSchm.SelectedItem.ToString();
+            string demTbl = cboDemTbl.SelectedItem.ToString();
+            string demName = demSchm + "." + demTbl;
+            string demCode = cboDemID.SelectedItem.ToString();
+            string demVolm = cboDemVol.SelectedItem.ToString();
+            string demScor = cboFCAOut.SelectedItem.ToString();
+            string fcaSize = nud_Size.Value.ToString();
+
             using (NpgsqlConnection dbConnection = new NpgsqlConnection())
             {
                 dbConnection.ConnectionString = conString;
-                using (NpgsqlCommand dbCmd = dbConnection.CreateCommand())
+                using (NpgsqlCommand dbCmd1 = dbConnection.CreateCommand())
                 {
+                    dbCmd1.CommandText =
+                    @"Select Exists(Select 1 From information_schema.columns"
+                    +@" Where table_schema = '" + supSchm +"'"
+                    +@" And table_name = '" + supTbl +"'"
+                    +@" And column_name ='snapid');";
 
-                    string supName = cboSupSchm.SelectedItem.ToString() + "." + cboSupTbl.SelectedItem.ToString();
-                    string supCode = cboSupID.SelectedItem.ToString();
-                    string supVolm = cboSupVol.SelectedItem.ToString();
+                    dbConnection.Open();
+                    Boolean test = Convert.ToBoolean(dbCmd1.ExecuteScalar());
+                    dbConnection.Close();
 
-                    string demName = cboDemSchm.SelectedItem.ToString() + "." + cboDemTbl.SelectedItem.ToString();
-                    string demCode = cboDemID.SelectedItem.ToString();
-                    string demVolm = cboDemVol.SelectedItem.ToString();
-                    string demScor = cboFCAOut.SelectedItem.ToString();
-
-                    string fcaSize = nud_Size.Value.ToString();
-
-                    string sql1 = "";
-                    if (rbNone.Checked)
+                    //check if need to recompute network snap IDs
+                    if (cbSnapSup.Checked || !test)
                     {
-                        sql1 = @"Create Table fcastep1a As"
-                               + @" Select supply." + supCode + ", sum(demand." + demVolm + ") As demand"
-                               + @" From " + supName + " As supply"
-                               + @" Join " + demName + " As demand"
-                               + @" On ST_DWithin(supply.geom, demand.geom, " + fcaSize + ")"
-                               + @" Group By (supply." + supCode + ")";
+                        dbCmd1.CommandText =
+                        @"Alter Table " + supName + " Drop Column If Exists snapid;" +
+                        @"Alter Table " + supName + " Add Column snapid Integer;";
+                        dbConnection.Open();
+                        dbCmd1.ExecuteNonQuery();
+                        dbConnection.Close();
+                    }
+                    /*
+                        @"Select st_x(geom), st_y(geom) from crowflies.lsoasupplys;";
+                    dbConnection.Open();         
+
+
+
+                    using (NpgsqlConnection dbConnection = new NpgsqlConnection())
+                    {
+                        dbConnection.ConnectionString = conString;
+                        using (NpgsqlCommand dbCmd = dbConnection.CreateCommand())
+                        {
+                            dbCmd.CommandText =
+                            @"Select st_x(geom), st_y(geom) from crowflies.lsoasupplys;";
+                            dbConnection.Open();
+                            using (NpgsqlDataReader dbReader = dbCmd.ExecuteReader())
+                            {
+                                while (dbReader.Read())
+                                {
+                                    dbCmd2.CommandText =
+                                    @"Select id::integer From or_apr17.wales"
+                                    + @" Order By geom <-> ST_SetSrid(ST_MakePoint("
+                                    + @dbReader[0].ToString() + "," + dbReader[1].ToString()
+                                    + @"), 27700)  LIMIT 1;";
+                                    //executescalar
+                                    //insert this value into the supplytble snapid field
+                                }
+                                dbConnection.Close();
+                            }
+                    }/*
+                            //# Step2: for each feature in the demand layer        
+                            //                    for demFeat in demLayer.getFeatures():
+                            //                # get its coordinates and attributes
+                            //                geom = demFeat.geometry()
+                            //                        xD = geom.asPoint().x()
+                            //                        yD = geom.asPoint().y()
+                            //                        demAttrs = demFeat.attributes()
+                            //                # get a list of supply features from the index that
+                            //# are potentially within the fca threshold distance  
+                            //                sids = supIdx.intersects(demFeat.geometry().buffer(fca, -1).boundingBox())
+                            //                        for id in sids:
+                            //                    # get each candidate feature 
+                            //                    select = supLayer.getFeatures(QgsFeatureRequest().setFilterFid(id))
+                            //                    for supFeat in select:
+                            //                        geom = supFeat.geometry()
+                            //                        xS = geom.asPoint().x()
+                            //                        yS = geom.asPoint().y()
+
+                            //                        # compute the crow-flies distance between demand and supply features
+                            //                        dist = math.sqrt((xS - xD) * *2 + (yS - yD) * *2)
+
+                            //                        # tally the total distance calcs
+                            //                        totalpairs += 1
+                            //                        if (not totalpairs % 1500):
+                            //                            self.dlg.lblVer.setText(str(totalpairs))
+                            //                            QApplication.processEvents()
+
+                            //                        # FCA step 2: if supply and demand points are within threshold distance there must
+                            //# be an entry in the depTotal dictionary associated with this supply point
+                            //                    if dist <= fca:   
+                            //                            indistance += 1
+                            //                            # get supply feature's attributes
+                            //                            supAttrs = supFeat.attributes()
+
+                            //                            # scale the supply volume using a linear distance-decay formula
+                            //                    supAmnt = float(supAttrs[supFld]) / float(demTotal[supAttrs[0]])
+                            //                            supAmnt = supAmnt * (1.0 - (float(dist) / float(fca)))
+
+                            //                            # insert or update the availability score for this demand point
+                            //                    if supTotal.has_key(demAttrs[0]):
+                            //                                supTotal[demAttrs[0]] += supAmnt
+                            //                            else:
+                            //                                supTotal[demAttrs[0]] = supAmnt
+
+                            /*
+                             * For each feature in the supply table create a list of the features
+                             * in the demand table which might be inside FCA threshold distance
+                             * 
+                             * {if using a time cost field would have to translate this into a worst-case
+                             *  distance measure - eg how far if tavelling at fastest toad speed }
+                             */
+
+                    //get set of candidate Demand points - those that lie within
+                    //the straight-line FCA threshold distance...
+
+                    /*string sql1 = @"Create Table Delete If Exists Candidates As"
+                                  + @" Select supply." + supCode + ", supply.geom" 
+                                  + @", demand." + demCode + ", demand.geom, demand." + demVolm
+                                  + @" From " + supName + " As supply"
+                                  + @" Join " + demName + " As demand"
+                                  + @" On ST_DWithin(supply.geom, demand.geom, " + fcaSize + ");";
+
+                    // use location of each supply-demand pair to compute network distance
+                    // match each point to nearest network node
+                    // then compute network distance/cost between supply-demand pair
+
+                    // SELECT seq from ways order by geom <-> ST_SetSrid(ST_MakePoint(long, lat), 4326) limit 1;
+
+                    // network tracing
+
+                    // final check; is network distance/cost inside FCA threshold
+                    if (nwd <= fca)
+                    {
+                        // indistance += 1
+                        // get demand feature's attributes
+                        //         demAttrs = demFeat.attributes()
+                        // scale demand volume using distance decay function
+                        // and add to current demand tally for this supply point
+                        // scale with a linear distance-decay
+                        //          demAmnt = demAttrs[demFld] * (1.0 - (float(dist) / float(fca)))             
+                    }
+                    
+                    // FCA step 1: insert or update demand volume for this supply feature
+                    if (demCounts.ContainsKey(cboSupID))
+                    {
+                        demCounts.Add(cboSupID, demandVol);
                     }
                     else
                     {
-                        sql1 = @"Create Table fcastep1a As"
-                               + @" Select supply." + supCode + ", sum(cast(demand." + demVolm + " as double precision) * "
-                               + @"(1.0 - (ST_Distance(supply.geom, demand.geom) / cast(" + fcaSize + " as double precision)))) As demand"
-                               + @" From " + supName + " As supply"
-                               + @" Join " + demName + " As demand"
-                               + @" On ST_DWithin(supply.geom, demand.geom, " + fcaSize + ")"
-                               + @" Group By (supply." + supCode + ")";
+                        demCounts[cboSupID] += demandVol;
                     }
 
-                    string sql2 = @"Create Table fcastep1b As"
-                                     + @" Select a." + supCode + ", cast(a." + supVolm + " as double precision) / cast(b.demand as double precision) As avail, a.geom"
-                                     + @" From " + supName + " As a  Join fcastep1a As b On a." + supCode + " = b." + supCode + ";";
-
-                    string sql3 = "";
-                    if (rbNone.Checked)
-                    {
-                        sql3 = @"Create Table fcascores As"
-                               + @" Select demand." + demCode + ", sum(step1.avail) As fca_score"
-                               + @" From " + demName + " As demand"
-                               + @" Join fcastep1b As step1"
-                               + @" On ST_DWithin(demand.geom, step1.geom, " + fcaSize + ")"
-                               + @" Group By (demand." + demCode + ");";
-                    }
-                    else
-                    {
-                        sql3 = @"Create Table fcascores As"
-                               + @" Select demand." + demCode + ", sum(step1.avail * "
-                               + @"(1.0 - (ST_Distance(demand.geom, step1.geom)/cast(" + fcaSize + " as double precision)))) as fca_score"
-                               + @" From " + demName + " As demand"
-                               + @" Join fcastep1b As step1"
-                               + @" On ST_DWithin(demand.geom, step1.geom, " + fcaSize + ")"
-                               + @" Group By (demand." + demCode + ");";
-                    }
+        //REPEAT FOR STEP 2 FCA
 
                     string sql4 = @"Update " + demName
                                      + @" Set(" + demScor + ") = (fcascores.fca_score)"
@@ -362,6 +468,7 @@ namespace pgRoutingFCA
                     dbCmd.ExecuteNonQuery();
 
                     dbConnection.Close();
+                    */
                 }
             }
 
@@ -374,6 +481,12 @@ namespace pgRoutingFCA
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+
         }
     }
 }

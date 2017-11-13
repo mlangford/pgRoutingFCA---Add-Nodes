@@ -57,6 +57,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.cbSnapSup = new System.Windows.Forms.CheckBox();
+            this.cbSnapDem = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -65,6 +67,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbSnapSup);
             this.groupBox1.Controls.Add(this.cboSupID);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.cboSupVol);
@@ -223,6 +226,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbSnapDem);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.cboFCAOut);
             this.groupBox2.Controls.Add(this.cboDemID);
@@ -300,7 +304,7 @@
             this.btnExecute.BackColor = System.Drawing.Color.DimGray;
             this.btnExecute.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExecute.ForeColor = System.Drawing.Color.White;
-            this.btnExecute.Location = new System.Drawing.Point(568, 593);
+            this.btnExecute.Location = new System.Drawing.Point(525, 25);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(104, 38);
             this.btnExecute.TabIndex = 32;
@@ -312,6 +316,7 @@
             // 
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.btnExecute);
             this.groupBox3.Controls.Add(this.rbNone);
             this.groupBox3.Controls.Add(this.nud_Size);
             this.groupBox3.Controls.Add(this.label8);
@@ -419,15 +424,34 @@
             this.label13.Size = new System.Drawing.Size(0, 17);
             this.label13.TabIndex = 33;
             // 
+            // cbSnapSup
+            // 
+            this.cbSnapSup.AutoSize = true;
+            this.cbSnapSup.Location = new System.Drawing.Point(22, 120);
+            this.cbSnapSup.Name = "cbSnapSup";
+            this.cbSnapSup.Size = new System.Drawing.Size(138, 23);
+            this.cbSnapSup.TabIndex = 29;
+            this.cbSnapSup.Text = "Snap to network";
+            this.cbSnapSup.UseVisualStyleBackColor = true;
+            // 
+            // cbSnapDem
+            // 
+            this.cbSnapDem.AutoSize = true;
+            this.cbSnapDem.Location = new System.Drawing.Point(22, 167);
+            this.cbSnapDem.Name = "cbSnapDem";
+            this.cbSnapDem.Size = new System.Drawing.Size(138, 23);
+            this.cbSnapDem.TabIndex = 30;
+            this.cbSnapDem.Text = "Snap to network";
+            this.cbSnapDem.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(690, 655);
+            this.ClientSize = new System.Drawing.Size(690, 696);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label13);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -436,7 +460,6 @@
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form2";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -481,5 +504,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.CheckBox cbSnapSup;
+        private System.Windows.Forms.CheckBox cbSnapDem;
     }
 }
