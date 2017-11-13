@@ -49,12 +49,12 @@
             this.lbFeedback.AutoSize = true;
             this.lbFeedback.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFeedback.ForeColor = System.Drawing.Color.MistyRose;
-            this.lbFeedback.Location = new System.Drawing.Point(34, 281);
+            this.lbFeedback.Location = new System.Drawing.Point(330, 281);
             this.lbFeedback.Name = "lbFeedback";
             this.lbFeedback.Size = new System.Drawing.Size(114, 25);
             this.lbFeedback.TabIndex = 62;
             this.lbFeedback.Text = "lbFeedback";
-            this.lbFeedback.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbFeedback.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbFeedback.Visible = false;
             // 
             // btTest
@@ -64,7 +64,7 @@
             this.btTest.ForeColor = System.Drawing.SystemColors.Window;
             this.btTest.Location = new System.Drawing.Point(32, 242);
             this.btTest.Name = "btTest";
-            this.btTest.Size = new System.Drawing.Size(441, 33);
+            this.btTest.Size = new System.Drawing.Size(441, 36);
             this.btTest.TabIndex = 61;
             this.btTest.Text = "test connection";
             this.btTest.UseVisualStyleBackColor = false;

@@ -47,13 +47,13 @@ namespace pgRoutingFCA
                     dbConnection.Open();
                     dbConnection.Close();
                     btGo.Enabled = true;
-                    showlabel("Connection settings OK", 4000);
+                    showlabel("connection OK", 4000);
                     btGo.Focus();
                 }
             }
             catch (Exception)
             {
-                showlabel("Connection Failed ~ review settings", 4000);
+                showlabel("connection failed ~ review settings", 4000);
                 btGo.Enabled = false;
             }
         }

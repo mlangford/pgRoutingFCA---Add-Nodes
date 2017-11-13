@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbSnapSup = new System.Windows.Forms.CheckBox();
             this.cboSupID = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.cboSupVol = new System.Windows.Forms.ComboBox();
@@ -43,6 +45,7 @@
             this.cboDemSchm = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbSnapDem = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.cboFCAOut = new System.Windows.Forms.ComboBox();
             this.cboDemID = new System.Windows.Forms.ComboBox();
@@ -57,8 +60,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.cbSnapSup = new System.Windows.Forms.CheckBox();
-            this.cbSnapDem = new System.Windows.Forms.CheckBox();
+            this.lbFeedbac = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,12 +81,22 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Comic Sans MS", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(18, 24);
+            this.groupBox1.Location = new System.Drawing.Point(18, 14);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(654, 170);
             this.groupBox1.TabIndex = 29;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Supply Details";
+            // 
+            // cbSnapSup
+            // 
+            this.cbSnapSup.AutoSize = true;
+            this.cbSnapSup.Location = new System.Drawing.Point(22, 120);
+            this.cbSnapSup.Name = "cbSnapSup";
+            this.cbSnapSup.Size = new System.Drawing.Size(138, 23);
+            this.cbSnapSup.TabIndex = 29;
+            this.cbSnapSup.Text = "Snap to network";
+            this.cbSnapSup.UseVisualStyleBackColor = true;
             // 
             // cboSupID
             // 
@@ -137,6 +150,7 @@
             this.cboSupTbl.Name = "cboSupTbl";
             this.cboSupTbl.Size = new System.Drawing.Size(261, 33);
             this.cboSupTbl.TabIndex = 17;
+            this.cboSupTbl.SelectedIndexChanged += new System.EventHandler(this.cboSupTbl_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -239,12 +253,22 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Font = new System.Drawing.Font("Comic Sans MS", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(18, 200);
+            this.groupBox2.Location = new System.Drawing.Point(18, 201);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(654, 221);
             this.groupBox2.TabIndex = 30;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Demand Details";
+            // 
+            // cbSnapDem
+            // 
+            this.cbSnapDem.AutoSize = true;
+            this.cbSnapDem.Location = new System.Drawing.Point(22, 167);
+            this.cbSnapDem.Name = "cbSnapDem";
+            this.cbSnapDem.Size = new System.Drawing.Size(138, 23);
+            this.cbSnapDem.TabIndex = 30;
+            this.cbSnapDem.Text = "Snap to network";
+            this.cbSnapDem.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -304,7 +328,7 @@
             this.btnExecute.BackColor = System.Drawing.Color.DimGray;
             this.btnExecute.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExecute.ForeColor = System.Drawing.Color.White;
-            this.btnExecute.Location = new System.Drawing.Point(525, 25);
+            this.btnExecute.Location = new System.Drawing.Point(568, 582);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(104, 38);
             this.btnExecute.TabIndex = 32;
@@ -316,14 +340,13 @@
             // 
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.btnExecute);
             this.groupBox3.Controls.Add(this.rbNone);
             this.groupBox3.Controls.Add(this.nud_Size);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Font = new System.Drawing.Font("Comic Sans MS", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(18, 439);
+            this.groupBox3.Location = new System.Drawing.Point(18, 431);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(654, 135);
             this.groupBox3.TabIndex = 31;
@@ -424,25 +447,22 @@
             this.label13.Size = new System.Drawing.Size(0, 17);
             this.label13.TabIndex = 33;
             // 
-            // cbSnapSup
+            // lbFeedbac
             // 
-            this.cbSnapSup.AutoSize = true;
-            this.cbSnapSup.Location = new System.Drawing.Point(22, 120);
-            this.cbSnapSup.Name = "cbSnapSup";
-            this.cbSnapSup.Size = new System.Drawing.Size(138, 23);
-            this.cbSnapSup.TabIndex = 29;
-            this.cbSnapSup.Text = "Snap to network";
-            this.cbSnapSup.UseVisualStyleBackColor = true;
+            this.lbFeedbac.AutoSize = true;
+            this.lbFeedbac.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFeedbac.ForeColor = System.Drawing.Color.MistyRose;
+            this.lbFeedbac.Location = new System.Drawing.Point(21, 578);
+            this.lbFeedbac.Name = "lbFeedbac";
+            this.lbFeedbac.Size = new System.Drawing.Size(114, 25);
+            this.lbFeedbac.TabIndex = 63;
+            this.lbFeedbac.Text = "lbFeedback";
+            this.lbFeedbac.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbFeedbac.Visible = false;
             // 
-            // cbSnapDem
+            // timer1
             // 
-            this.cbSnapDem.AutoSize = true;
-            this.cbSnapDem.Location = new System.Drawing.Point(22, 167);
-            this.cbSnapDem.Name = "cbSnapDem";
-            this.cbSnapDem.Size = new System.Drawing.Size(138, 23);
-            this.cbSnapDem.TabIndex = 30;
-            this.cbSnapDem.Text = "Snap to network";
-            this.cbSnapDem.UseVisualStyleBackColor = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form2
             // 
@@ -450,8 +470,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(690, 696);
+            this.Controls.Add(this.lbFeedbac);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label13);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -506,5 +528,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox cbSnapSup;
         private System.Windows.Forms.CheckBox cbSnapDem;
+        private System.Windows.Forms.Label lbFeedbac;
+        private System.Windows.Forms.Timer timer1;
     }
 }
