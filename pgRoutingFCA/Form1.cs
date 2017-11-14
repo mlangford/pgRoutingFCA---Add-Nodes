@@ -47,7 +47,7 @@ namespace pgRoutingFCA
                     dbConnection.Open();
                     dbConnection.Close();
                     btGo.Enabled = true;
-                    showlabel("connection OK", 4000);
+                    showlabel("connection OK", 1000);
                     btGo.Focus();
                 }
             }

@@ -281,8 +281,10 @@ namespace pgRoutingFCA
 
             Dictionary<int, double> demCounts = new Dictionary<int, double>();
             StringBuilder sb = new StringBuilder();
-            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
             List<int> snaps = new List<int>();
+            string cmdText;
 
             string supSchm = cboSupSchm.SelectedItem.ToString();
             string supTbl = cboSupTbl.SelectedItem.ToString();
@@ -303,16 +305,16 @@ namespace pgRoutingFCA
                 dbConnection.ConnectionString = conString;
                 using (NpgsqlCommand dbCmd1 = dbConnection.CreateCommand())
                 {
+                    //determine if a 'snapid' column exists in the supply table
                     dbCmd1.CommandText =
                     @"Select Exists(Select 1 From information_schema.columns"
                     + @" Where table_schema = '" + supSchm + "'"
                     + @" And table_name = '" + supTbl + "'"
                     + @" And column_name ='snapid');";
-
                     dbConnection.Open();
                     Boolean test = Convert.ToBoolean(dbCmd1.ExecuteScalar());
 
-                    //check : recompute network snapIDs?
+                    //if needed, or requested, recompute network snapids
                     if (cbSnapSup.Checked || !test)
                     {
                         showlabel("snapping supplies", 1000);
@@ -320,30 +322,27 @@ namespace pgRoutingFCA
                         @"Alter Table " + supName + " Drop Column If Exists snapid;" +
                         @"Alter Table " + supName + " Add Column snapid Integer;";
                         dbCmd1.ExecuteNonQuery();
-
-                        //get all coordinates into a datatable
-                        string cmdText = @"Select gid, St_X(geom), St_Y(geom) From " + supName + ";";
+                        //get all supply point coordinates stored in a datatable
+                        cmdText = @"Select " + supCode + ", St_X(geom), St_Y(geom) From " + supName + ";";
                         using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmdText, dbConnection))
                         {
-                            da.Fill(dt);
+                            da.Fill(dt1);
                         }
-
-                        foreach (DataRow dr in dt.Rows)
+                        //find nearest network node for each supply point, store in a List
+                        foreach (DataRow dr in dt1.Rows)
                         {
                             dbCmd1.CommandText =
-                            @"Select id::integer From or_apr17.wales"
-                            + @" Order By geom <-> ST_SetSrid(ST_MakePoint("
+                            @"Select id::integer From or_apr17.jst_wales_vertices_pgr"
+                            + @" Order By the_geom <-> ST_SetSrid(ST_MakePoint("
                             + dr[1].ToString() + "," + dr[2].ToString() + @"), 27700)  LIMIT 1;";
                             snaps.Add(Convert.ToInt32(dbCmd1.ExecuteScalar()));
                         }
-
-                        //build Insert String to update table with snap ids
-                        showlabel("updating supply points table", 1000);
+                        //build Insert String to update table with snapids
                         int k = 0;
-                        foreach (DataRow dr in dt.Rows)
+                        foreach (DataRow dr in dt1.Rows)
                         {
                             sb.Append("Update " + supName + " Set snapid = " + snaps[k++].ToString());
-                            sb.AppendLine(" Where gid =" + dr[0].ToString() + ";");
+                            sb.AppendLine(" Where " + supCode + " = " + dr[0].ToString() + ";");
                         }
                         dbCmd1.CommandText = sb.ToString();
                         dbCmd1.ExecuteNonQuery();
@@ -355,8 +354,6 @@ namespace pgRoutingFCA
                     + @" Where table_schema = '" + demSchm + "'"
                     + @" And table_name = '" + demTbl + "'"
                     + @" And column_name ='snapid');";
-
-                    //check : recompute network snapIDs?
                     test = Convert.ToBoolean(dbCmd1.ExecuteScalar());
                     if (cbSnapDem.Checked || !test)
                     {
@@ -365,59 +362,89 @@ namespace pgRoutingFCA
                         @"Alter Table " + demName + " Drop Column If Exists snapid;" +
                         @"Alter Table " + demName + " Add Column snapid Integer;";
                         dbCmd1.ExecuteNonQuery();
-
-                        //get all coordinates into a datatable
-                        dt.Clear();
+                        dt1.Clear();
                         snaps.Clear();
-                        string cmdText = @"Select gid, St_X(geom), St_Y(geom) From " + demName + ";";
+                        cmdText = @"Select " + demCode + ", St_X(geom), St_Y(geom) From " + demName + ";";
                         using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmdText, dbConnection))
                         {
-                            da.Fill(dt);
+                            da.Fill(dt1);
                         }
-
-                        foreach (DataRow dr in dt.Rows)
+                        foreach (DataRow dr in dt1.Rows)
                         {
                             dbCmd1.CommandText =
-                            @"Select id::integer From or_apr17.wales"
-                            + @" Order By geom <-> ST_SetSrid(ST_MakePoint("
+                            @"Select id::integer From or_apr17.jst_wales_vertices_pgr"
+                            + @" Order By the_geom <-> ST_SetSrid(ST_MakePoint("
                             + dr[1].ToString() + "," + dr[2].ToString() + @"), 27700)  LIMIT 1;";
                             snaps.Add(Convert.ToInt32(dbCmd1.ExecuteScalar()));
                         }
-
-                        //build Insert String to update table with snap ids
-                        showlabel("updating demand points table", 1000);
                         sb.Clear();
                         int k = 0;
-                        foreach (DataRow dr in dt.Rows)
+                        foreach (DataRow dr in dt1.Rows)
                         {
                             sb.Append("Update " + demName + " Set snapid = " + snaps[k++].ToString());
-                            sb.AppendLine(" Where gid =" + dr[0].ToString() + ";");
+                            sb.AppendLine(" Where " + demCode + " = " + dr[0].ToString() + ";");
                         }
                         dbCmd1.CommandText = sb.ToString();
                         dbCmd1.ExecuteNonQuery();
                     }
-                }
+
+                    // get list of candidate Demand points - those within the
+                    // straight-line FCA threshold distance of each Supply point...
+                    //    if using a time cost field must translate this to a worst-case
+                    //    distance measure - distance travelling at fastest road speed 
+                    showlabel("computing network distances", 1000);
+                    cmdText = @"Drop Table If Exists candidates;"
+                    + @"Create Table candidates As"
+                    + @" Select supply." + supCode + " as supid, supply.snapid as supsnp,"
+                    + @" demand." + demCode + " as demid, demand.snapid as demsnp,"
+                    + @" demand." + demVolm + " as vol, St_Distance(supply.geom,demand.geom) as sld"
+                    + @" From " + supName + " As supply"
+                    + @" Join " + demName + " As demand"
+                    + @" On ST_DWithin(supply.geom, demand.geom, " + fcaSize + ")"
+                    + @" Order by supid, demid;"
+                    + @" Alter Table candidates Add Column nwd Float;"
+                    + @" Alter Table candidates Add Primary Key (supid, demid);";
+                    dbCmd1.CommandText = cmdText;
+                    dbCmd1.ExecuteNonQuery();
+
+                    //compute network distance/cost between supply-demand pair
+
+                    //get list of supply ids
+                    dt1.Clear();
+                    string dacmdText = @"Select " + supCode + ", snapid From " + supName +";";
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(dacmdText, dbConnection))
+                    {
+                        da.Fill(dt1);
+                    }
+
+                    //for each supply id compute network distance to all candidate demands
+                    int i = 0;
+                    foreach (DataRow dr1 in dt1.Rows)
+                    {
+                        String da2cmdText = "Select * from pgr_dijkstraCost("
+                        + "'select id, source, target, cost_len as cost from or_apr17.jst_wales', "
+                        + dr1[1].ToString() + ", array(select demsnp from candidates where supsnp = " + dr1[1].ToString() + "), false)";
+                        dt2.Clear();
+                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(da2cmdText, dbConnection))
+                        {
+                            da.Fill(dt2);
+                        }
+                        foreach (DataRow dr2 in dt2.Rows)
+                        {
+                            dbCmd1.CommandText ="Update candidates Set nwd = " + dr2[2].ToString()
+                            + " Where (supid = " + dr1[0].ToString() + " And demsnp = " + dr2[1].ToString() + ");";
+                            dbCmd1.ExecuteNonQuery();
+                        }
+                        i++;
+                    }
+
                     dbConnection.Close();
+                    MessageBox.Show("Done: " + i.ToString() );
                 }
+            }
+
         }
 
-        // get set of candidate Demand points - those that lie within
-        // straight-line FCA threshold distance of each Supply point...
-        //
-        // {if using a time cost field must translate this to a worst-case
-        //  distance measure - distance tavelling at fastest road speed }
-
-        /*string sql1 = @"Create Table Delete If Exists Candidates As"
-                        + @" Select supply." + supCode + ", supply.geom" 
-                        + @", demand." + demCode + ", demand.geom, demand." + demVolm
-                        + @" From " + supName + " As supply"
-                        + @" Join " + demName + " As demand"
-                        + @" On ST_DWithin(supply.geom, demand.geom, " + fcaSize + ");";  */
-
-        // use the location of each supply-demand pair to compute
-        // the network distance/cost between supply-demand pair
-
-        // network tracing
 
         // final check; is network distance/cost within FCA threshold
         //if (nwd <= fca)
@@ -505,6 +532,7 @@ namespace pgRoutingFCA
         {
             lbFeedbac.Text = detail;
             lbFeedbac.Visible = true;
+            Application.DoEvents();
             timer1.Interval = time;
             timer1.Start();
         }
@@ -512,6 +540,7 @@ namespace pgRoutingFCA
         private void timer1_Tick(object sender, EventArgs e)
         {
             lbFeedbac.Visible = false;
+            Application.DoEvents();
             timer1.Stop();
         }
     }
