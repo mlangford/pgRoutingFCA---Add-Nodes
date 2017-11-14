@@ -425,17 +425,23 @@ namespace pgRoutingFCA
                         + "'select id, source, target, cost_len as cost from or_apr17.jst_wales', "
                         + dr1[1].ToString() + ", array(select demsnp from candidates where supsnp = " + dr1[1].ToString() + "), false)";
                         dt2.Clear();
-                        using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(da2cmdText, dbConnection))
+                        try
                         {
-                            da.Fill(dt2);
+                            using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(da2cmdText, dbConnection))
+                            {
+                                da.Fill(dt2);
+                            }
+                            foreach (DataRow dr2 in dt2.Rows)
+                            {
+                                dbCmd1.CommandText = "Update candidates Set nwd = " + dr2[2].ToString()
+                                + " Where (supid = " + dr1[0].ToString() + " And demsnp = " + dr2[1].ToString() + ");";
+                                dbCmd1.ExecuteNonQuery();
+                            }
+                            i++;
                         }
-                        foreach (DataRow dr2 in dt2.Rows)
+                        catch
                         {
-                            dbCmd1.CommandText ="Update candidates Set nwd = " + dr2[2].ToString()
-                            + " Where (supid = " + dr1[0].ToString() + " And demsnp = " + dr2[1].ToString() + ");";
-                            dbCmd1.ExecuteNonQuery();
                         }
-                        i++;
                     }
 
                     dbConnection.Close();
