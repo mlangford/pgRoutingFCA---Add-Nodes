@@ -59,9 +59,9 @@
             this.nud_Size = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.lbFeedbac = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -328,7 +328,7 @@
             this.btnExecute.BackColor = System.Drawing.Color.DimGray;
             this.btnExecute.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExecute.ForeColor = System.Drawing.Color.White;
-            this.btnExecute.Location = new System.Drawing.Point(568, 582);
+            this.btnExecute.Location = new System.Drawing.Point(568, 589);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(104, 38);
             this.btnExecute.TabIndex = 32;
@@ -413,7 +413,7 @@
             this.nud_Size.Size = new System.Drawing.Size(122, 30);
             this.nud_Size.TabIndex = 22;
             this.nud_Size.Value = new decimal(new int[] {
-            5000,
+            1000,
             0,
             0,
             0});
@@ -439,14 +439,6 @@
             this.label9.TabIndex = 14;
             this.label9.Text = "Catchment Size:";
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(23, 603);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(0, 17);
-            this.label13.TabIndex = 33;
-            // 
             // lbFeedbac
             // 
             this.lbFeedbac.AutoSize = true;
@@ -460,9 +452,13 @@
             this.lbFeedbac.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbFeedbac.Visible = false;
             // 
-            // timer1
+            // progressBar1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.progressBar1.Location = new System.Drawing.Point(25, 606);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(332, 23);
+            this.progressBar1.TabIndex = 27;
+            this.progressBar1.Visible = false;
             // 
             // Form2
             // 
@@ -470,12 +466,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(690, 696);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lbFeedbac);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.label13);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -525,10 +521,10 @@
         private System.Windows.Forms.NumericUpDown nud_Size;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox cbSnapSup;
         private System.Windows.Forms.CheckBox cbSnapDem;
         private System.Windows.Forms.Label lbFeedbac;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

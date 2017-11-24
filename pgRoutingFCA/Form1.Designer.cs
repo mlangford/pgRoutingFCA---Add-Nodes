@@ -73,7 +73,6 @@
             // btGo
             // 
             this.btGo.BackColor = System.Drawing.Color.DimGray;
-            this.btGo.Enabled = false;
             this.btGo.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btGo.ForeColor = System.Drawing.SystemColors.Window;
             this.btGo.Location = new System.Drawing.Point(32, 323);
@@ -82,6 +81,7 @@
             this.btGo.TabIndex = 51;
             this.btGo.Text = "OK";
             this.btGo.UseVisualStyleBackColor = false;
+            this.btGo.Visible = false;
             this.btGo.Click += new System.EventHandler(this.btGo_Click);
             // 
             // label4
@@ -105,6 +105,8 @@
             this.textBox5.Size = new System.Drawing.Size(273, 35);
             this.textBox5.TabIndex = 56;
             this.textBox5.Text = "usw_allwales";
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+
             // 
             // textBox4
             // 
@@ -116,6 +118,8 @@
             this.textBox4.Size = new System.Drawing.Size(88, 35);
             this.textBox4.TabIndex = 55;
             this.textBox4.Text = "5432";
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+
             // 
             // label3
             // 
@@ -138,6 +142,8 @@
             this.textBox3.Size = new System.Drawing.Size(179, 35);
             this.textBox3.TabIndex = 54;
             this.textBox3.Text = "localhost";
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+
             // 
             // label2
             // 
@@ -161,6 +167,8 @@
             this.textBox2.Size = new System.Drawing.Size(273, 35);
             this.textBox2.TabIndex = 53;
             this.textBox2.Text = "Password$1";
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+
             // 
             // label1
             // 
@@ -183,6 +191,7 @@
             this.textBox1.Size = new System.Drawing.Size(273, 35);
             this.textBox1.TabIndex = 52;
             this.textBox1.Text = "postgres";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // timer1
             // 

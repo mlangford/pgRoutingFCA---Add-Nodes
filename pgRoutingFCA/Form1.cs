@@ -46,8 +46,9 @@ namespace pgRoutingFCA
                 {
                     dbConnection.Open();
                     dbConnection.Close();
-                    btGo.Enabled = true;
                     showlabel("connection OK", 1000);
+                    btTest.Visible = false;
+                    btGo.Visible = true;
                     btGo.Focus();
                 }
             }
@@ -95,6 +96,12 @@ namespace pgRoutingFCA
         {
             lbFeedback.Visible = false;
             timer1.Stop();
+        }
+
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            btTest.Visible = true;
+            btGo.Visible = false;
         }
     }
 }
