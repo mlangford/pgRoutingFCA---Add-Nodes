@@ -27,7 +27,7 @@ namespace pgRoutingFCA
                     textBox5.Text = sr.ReadLine();
                 }
             }
-            catch (Exception)
+            catch 
             {
                 //just carry on with default settings
             }
@@ -46,13 +46,13 @@ namespace pgRoutingFCA
                 {
                     dbConnection.Open();
                     dbConnection.Close();
-                    showlabel("connection OK", 1000);
+                    showlabel("connection details OK", 3000);
                     btTest.Visible = false;
                     btGo.Visible = true;
                     btGo.Focus();
                 }
             }
-            catch (Exception)
+            catch
             {
                 showlabel("connection failed ~ review settings", 4000);
                 btGo.Enabled = false;
@@ -73,14 +73,13 @@ namespace pgRoutingFCA
                     sw.WriteLine(textBox5.Text);
                 }
             }
-            catch (Exception)
+            catch
             {
                 //just carry on
             }
-            Form2 frm2 = new Form2(conString);
-            frm2.Owner = this;
+            Form1b frm1b = new Form1b(conString);
             this.Hide();
-            frm2.Show();
+            frm1b.Show();
         }
 
         //display a feedback label
@@ -102,6 +101,11 @@ namespace pgRoutingFCA
         {
             btTest.Visible = true;
             btGo.Visible = false;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

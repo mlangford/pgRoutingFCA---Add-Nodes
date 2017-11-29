@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>There is already an OD matrix table stored on the system
-for this model (same supply points, demand points, and
-FCA threshold setting). Faster computation time is possible
-by re-using this table, but you may prefer to re-compute
-a new OD matrix instead.
+    <value>An OD matrix table is laeady stored on the system for
+this model (same supply points, demand points, and
+FCA threshold). Computation time using this table will 
+be much faster, but re-compute a new OD matrix if you
+are unsure of its provenence / validity.
 </value>
   </data>
 </root>

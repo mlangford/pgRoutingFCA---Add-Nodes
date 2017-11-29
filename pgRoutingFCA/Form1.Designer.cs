@@ -49,7 +49,7 @@
             this.lbFeedback.AutoSize = true;
             this.lbFeedback.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFeedback.ForeColor = System.Drawing.Color.MistyRose;
-            this.lbFeedback.Location = new System.Drawing.Point(330, 281);
+            this.lbFeedback.Location = new System.Drawing.Point(33, 279);
             this.lbFeedback.Name = "lbFeedback";
             this.lbFeedback.Size = new System.Drawing.Size(114, 25);
             this.lbFeedback.TabIndex = 62;
@@ -77,9 +77,9 @@
             this.btGo.ForeColor = System.Drawing.SystemColors.Window;
             this.btGo.Location = new System.Drawing.Point(32, 323);
             this.btGo.Name = "btGo";
-            this.btGo.Size = new System.Drawing.Size(441, 33);
+            this.btGo.Size = new System.Drawing.Size(441, 42);
             this.btGo.TabIndex = 51;
-            this.btGo.Text = "OK";
+            this.btGo.Text = "Continue";
             this.btGo.UseVisualStyleBackColor = false;
             this.btGo.Visible = false;
             this.btGo.Click += new System.EventHandler(this.btGo_Click);
@@ -104,9 +104,8 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(273, 35);
             this.textBox5.TabIndex = 56;
-            this.textBox5.Text = "usw_allwales";
+            this.textBox5.Text = "your_database";
             this.textBox5.TextChanged += new System.EventHandler(this.textBox_TextChanged);
-
             // 
             // textBox4
             // 
@@ -119,7 +118,6 @@
             this.textBox4.TabIndex = 55;
             this.textBox4.Text = "5432";
             this.textBox4.TextChanged += new System.EventHandler(this.textBox_TextChanged);
-
             // 
             // label3
             // 
@@ -143,7 +141,6 @@
             this.textBox3.TabIndex = 54;
             this.textBox3.Text = "localhost";
             this.textBox3.TextChanged += new System.EventHandler(this.textBox_TextChanged);
-
             // 
             // label2
             // 
@@ -166,9 +163,8 @@
             this.textBox2.PasswordChar = '~';
             this.textBox2.Size = new System.Drawing.Size(273, 35);
             this.textBox2.TabIndex = 53;
-            this.textBox2.Text = "Password$1";
+            this.textBox2.Text = "????";
             this.textBox2.TextChanged += new System.EventHandler(this.textBox_TextChanged);
-
             // 
             // label1
             // 
@@ -190,7 +186,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(273, 35);
             this.textBox1.TabIndex = 52;
-            this.textBox1.Text = "postgres";
+            this.textBox1.Text = "enter_username";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // timer1
@@ -216,9 +212,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "pgRoutingFCA ~ PostGIS connection";
+            this.Text = "pg_network USW-FCA ~ PostGIS connection";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

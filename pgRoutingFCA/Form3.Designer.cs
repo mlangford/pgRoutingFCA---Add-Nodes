@@ -42,7 +42,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(24, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(561, 140);
+            this.label1.Size = new System.Drawing.Size(525, 140);
             this.label1.TabIndex = 15;
             this.label1.Text = resources.GetString("label1.Text");
             // 
@@ -53,9 +53,9 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(24, 211);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(357, 28);
+            this.label2.Size = new System.Drawing.Size(307, 28);
             this.label2.TabIndex = 16;
-            this.label2.Text = "Use the currently stored OD matrix?\r\n";
+            this.label2.Text = "Use the pre-stored OD matrix?\r\n";
             // 
             // btYes
             // 
@@ -89,12 +89,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(656, 266);
+            this.ControlBox = false;
             this.Controls.Add(this.btNo);
             this.Controls.Add(this.btYes);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form3";
-            this.Text = "Form3";
             this.ResumeLayout(false);
             this.PerformLayout();
 
