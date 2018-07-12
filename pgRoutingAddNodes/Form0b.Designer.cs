@@ -1,6 +1,6 @@
 ﻿namespace pgRoutingFCA
 {
-    partial class Form1
+    partial class Form0b
     {
         /// <summary>
         /// Required designer variable.
@@ -33,14 +33,14 @@
             this.btTest = new System.Windows.Forms.Button();
             this.btGo = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tbDatabase = new System.Windows.Forms.TextBox();
+            this.tbPort = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbHost = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbPwd = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbUser = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -62,7 +62,7 @@
             this.btTest.BackColor = System.Drawing.Color.DimGray;
             this.btTest.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btTest.ForeColor = System.Drawing.SystemColors.Window;
-            this.btTest.Location = new System.Drawing.Point(32, 242);
+            this.btTest.Location = new System.Drawing.Point(32, 240);
             this.btTest.Name = "btTest";
             this.btTest.Size = new System.Drawing.Size(441, 36);
             this.btTest.TabIndex = 61;
@@ -73,13 +73,13 @@
             // btGo
             // 
             this.btGo.BackColor = System.Drawing.Color.DimGray;
-            this.btGo.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btGo.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btGo.ForeColor = System.Drawing.SystemColors.Window;
-            this.btGo.Location = new System.Drawing.Point(32, 323);
+            this.btGo.Location = new System.Drawing.Point(32, 240);
             this.btGo.Name = "btGo";
-            this.btGo.Size = new System.Drawing.Size(441, 42);
+            this.btGo.Size = new System.Drawing.Size(441, 36);
             this.btGo.TabIndex = 51;
-            this.btGo.Text = "Continue";
+            this.btGo.Text = "* CONTINUE *";
             this.btGo.UseVisualStyleBackColor = false;
             this.btGo.Visible = false;
             this.btGo.Click += new System.EventHandler(this.btGo_Click);
@@ -95,29 +95,29 @@
             this.label4.TabIndex = 60;
             this.label4.Text = "Database:";
             // 
-            // textBox5
+            // tbDatabase
             // 
-            this.textBox5.BackColor = System.Drawing.Color.DimGray;
-            this.textBox5.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox5.Location = new System.Drawing.Point(200, 186);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(273, 35);
-            this.textBox5.TabIndex = 56;
-            this.textBox5.Text = "your_database";
-            this.textBox5.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.tbDatabase.BackColor = System.Drawing.Color.DimGray;
+            this.tbDatabase.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbDatabase.ForeColor = System.Drawing.SystemColors.Window;
+            this.tbDatabase.Location = new System.Drawing.Point(200, 186);
+            this.tbDatabase.Name = "tbDatabase";
+            this.tbDatabase.Size = new System.Drawing.Size(273, 35);
+            this.tbDatabase.TabIndex = 56;
+            this.tbDatabase.Text = "your_database";
+            this.tbDatabase.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
-            // textBox4
+            // tbPort
             // 
-            this.textBox4.BackColor = System.Drawing.Color.DimGray;
-            this.textBox4.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox4.Location = new System.Drawing.Point(385, 132);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(88, 35);
-            this.textBox4.TabIndex = 55;
-            this.textBox4.Text = "5432";
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.tbPort.BackColor = System.Drawing.Color.DimGray;
+            this.tbPort.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPort.ForeColor = System.Drawing.SystemColors.Window;
+            this.tbPort.Location = new System.Drawing.Point(385, 132);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(88, 35);
+            this.tbPort.TabIndex = 55;
+            this.tbPort.Text = "5432";
+            this.tbPort.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // label3
             // 
@@ -130,17 +130,17 @@
             this.label3.TabIndex = 59;
             this.label3.Text = "Server/Port:";
             // 
-            // textBox3
+            // tbHost
             // 
-            this.textBox3.BackColor = System.Drawing.Color.DimGray;
-            this.textBox3.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox3.Location = new System.Drawing.Point(200, 132);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(179, 35);
-            this.textBox3.TabIndex = 54;
-            this.textBox3.Text = "localhost";
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.tbHost.BackColor = System.Drawing.Color.DimGray;
+            this.tbHost.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbHost.ForeColor = System.Drawing.SystemColors.Window;
+            this.tbHost.Location = new System.Drawing.Point(200, 132);
+            this.tbHost.Name = "tbHost";
+            this.tbHost.Size = new System.Drawing.Size(179, 35);
+            this.tbHost.TabIndex = 54;
+            this.tbHost.Text = "localhost";
+            this.tbHost.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // label2
             // 
@@ -153,18 +153,18 @@
             this.label2.TabIndex = 58;
             this.label2.Text = "Password:";
             // 
-            // textBox2
+            // tbPwd
             // 
-            this.textBox2.BackColor = System.Drawing.Color.DimGray;
-            this.textBox2.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox2.Location = new System.Drawing.Point(200, 82);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '~';
-            this.textBox2.Size = new System.Drawing.Size(273, 35);
-            this.textBox2.TabIndex = 53;
-            this.textBox2.Text = "????";
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.tbPwd.BackColor = System.Drawing.Color.DimGray;
+            this.tbPwd.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPwd.ForeColor = System.Drawing.SystemColors.Window;
+            this.tbPwd.Location = new System.Drawing.Point(200, 82);
+            this.tbPwd.Name = "tbPwd";
+            this.tbPwd.PasswordChar = '~';
+            this.tbPwd.Size = new System.Drawing.Size(273, 35);
+            this.tbPwd.TabIndex = 53;
+            this.tbPwd.Text = "????";
+            this.tbPwd.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // label1
             // 
@@ -177,17 +177,17 @@
             this.label1.TabIndex = 57;
             this.label1.Text = "Username:";
             // 
-            // textBox1
+            // tbUser
             // 
-            this.textBox1.BackColor = System.Drawing.Color.DimGray;
-            this.textBox1.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(200, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(273, 35);
-            this.textBox1.TabIndex = 52;
-            this.textBox1.Text = "enter_username";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            this.tbUser.BackColor = System.Drawing.Color.DimGray;
+            this.tbUser.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUser.ForeColor = System.Drawing.SystemColors.Window;
+            this.tbUser.Location = new System.Drawing.Point(200, 32);
+            this.tbUser.Name = "tbUser";
+            this.tbUser.Size = new System.Drawing.Size(273, 35);
+            this.tbUser.TabIndex = 52;
+            this.tbUser.Text = "enter_username";
+            this.tbUser.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // timer1
             // 
@@ -195,28 +195,27 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(500, 389);
             this.Controls.Add(this.lbFeedback);
             this.Controls.Add(this.btTest);
             this.Controls.Add(this.btGo);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.tbDatabase);
+            this.Controls.Add(this.tbPort);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.tbHost);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tbPwd);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "pg_network USW-FCA ~ PostGIS connection";
+            this.Text = "pgUSW-FCA : : PostGIS database connection";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -230,15 +229,15 @@
         private System.Windows.Forms.Button btTest;
         private System.Windows.Forms.Button btGo;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbHost;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbPwd;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbUser;
         private System.Windows.Forms.Timer timer1;
+        public System.Windows.Forms.TextBox tbDatabase;
     }
 }
 

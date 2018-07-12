@@ -5,9 +5,9 @@ using Npgsql;
 
 namespace pgRoutingFCA
 {
-    public partial class Form1 : Form
+    public partial class Form0b : Form
     {
-        public Form1()
+        public Form0b()
         {
             InitializeComponent();
         }
@@ -20,11 +20,11 @@ namespace pgRoutingFCA
             {
                 using (StreamReader sr = new StreamReader("lkg.txt"))
                 {
-                    textBox1.Text = sr.ReadLine();
-                    textBox2.Text = sr.ReadLine();
-                    textBox3.Text = sr.ReadLine();
-                    textBox4.Text = sr.ReadLine();
-                    textBox5.Text = sr.ReadLine();
+                    tbUser.Text = sr.ReadLine();
+                    tbPwd.Text = sr.ReadLine();
+                    tbHost.Text = sr.ReadLine();
+                    tbPort.Text = sr.ReadLine();
+                    tbDatabase.Text = sr.ReadLine();
                 }
             }
             catch 
@@ -35,18 +35,19 @@ namespace pgRoutingFCA
 
         private void btTest_Click(object sender, EventArgs e)
         {
-            conString = "Server=" + textBox3.Text +
-                                           "; Port=" + textBox4.Text +
-                                           "; User Id=" + textBox1.Text +
-                                           "; Password=" + textBox2.Text +
-                                           "; Database=" + textBox5.Text;
+            conString = "Server=" + tbHost.Text +
+                                           "; Port=" + tbPort.Text +
+                                           "; User Id=" + tbUser.Text +
+                                           "; Password=" + tbPwd.Text +
+                                           "; Database=" + tbDatabase.Text;
             try
             {
                 using (NpgsqlConnection dbConnection = new NpgsqlConnection(conString))
                 {
                     dbConnection.Open();
                     dbConnection.Close();
-                    showlabel("connection details OK", 3000);
+                    btGo_Click(sender, e);
+                    //showlabel("connection OK", 3000);
                     btTest.Visible = false;
                     btGo.Visible = true;
                     btGo.Focus();
@@ -54,7 +55,7 @@ namespace pgRoutingFCA
             }
             catch
             {
-                showlabel("connection failed ~ review settings", 4000);
+                showlabel("connection failed: review settings", 4000);
                 btGo.Enabled = false;
             }
         }
@@ -66,20 +67,20 @@ namespace pgRoutingFCA
                 //save Last Known Good details
                 using (StreamWriter sw = new StreamWriter("lkg.txt", false))
                 {
-                    sw.WriteLine(textBox1.Text);
-                    sw.WriteLine(textBox2.Text);
-                    sw.WriteLine(textBox3.Text);
-                    sw.WriteLine(textBox4.Text);
-                    sw.WriteLine(textBox5.Text);
+                    sw.WriteLine(tbUser.Text);
+                    sw.WriteLine(tbPwd.Text);
+                    sw.WriteLine(tbHost.Text);
+                    sw.WriteLine(tbPort.Text);
+                    sw.WriteLine(tbDatabase.Text);
                 }
             }
             catch
             {
                 //just carry on
             }
-            Form1b frm1b = new Form1b(conString);
+            Form1a frm1a = new Form1a(conString);
             this.Hide();
-            frm1b.Show();
+            frm1a.Show();
         }
 
         //display a feedback label

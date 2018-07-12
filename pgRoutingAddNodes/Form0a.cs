@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace pgRoutingFCA
 {
-    public partial class Form0 : Form
+    public partial class Form0a : Form
     {
-        public Form0()
+        public Form0a()
         {
             InitializeComponent();
         }
@@ -19,7 +19,7 @@ namespace pgRoutingFCA
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
-            Form1 frm1 = new Form1();
+            Form0b frm1 = new Form0b();
             frm1.Show();
             this.Hide();
         }
